@@ -5,7 +5,13 @@ import { useEffect, useState } from "react";
   - key: the key on localStorage where we are saving this data
   - initialValue: the initial value of state
 */
-export function useLocalStorage(key, initialValue) {
+export function useLocalStorage(key, initialValue = null) {
+
+  const [state, setState] = useState(localStorage.getItem(key) || initialValue);
+
+
+
+
   /* 
     ✅ in this hook, use the useState hook. For the initial value for state:
     use the value saved in localStorage OR the initialValue from the function parameters 
@@ -16,19 +22,27 @@ export function useLocalStorage(key, initialValue) {
    in the useEffect, when state is updated, save the state to localStorage
    don't forget the dependencies array!
   */
-  useEffect(() => {});
+  useEffect(() => {
+if (state !==null) {
+  localStorage.setItem(key, state);
+
+}
+    
+  }, [key, state]);
 
   /* 
    ✅ return the same interface as useState:
    an array with state and a setState function
   */
-  // 👀 return [state, setState]
+
+
+  return [state, setState]
 }
 
 function Form() {
   // ✅ after implementing the useLocalStorage hook, replace useState with useLocalStorage
   // don't forget to pass in both arguments (a key and an initialValue)
-  const [name, setName] = useState("");
+  const [name, setName] = useLocalStorage("_solution_1_username", );
   console.log(name);
 
   return (
@@ -69,6 +83,10 @@ function FormWithObject() {
 }
 
 export default function App() {
+
+
+
+
   return (
     <div>
       <h2>useLocalStorage can save string</h2>
